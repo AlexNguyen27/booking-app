@@ -25,6 +25,8 @@ import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
+import AddNewBooking from './AddNewBooking';
+import EditBooking from './EditBooking';
 import {
   BookingListHead,
   BookingListToolbar,
@@ -38,7 +40,9 @@ import USERLIST from '../_mocks_/user';
 const TABLE_HEAD = [
   { id: 'type', label: 'Event Type', alignRight: false },
   { id: 'location', label: 'Location', alignRight: false },
-  { id: 'datetime', label: 'Datetime', alignRight: false },
+  { id: 'datetime1', label: 'Datetime', alignRight: false },
+  { id: 'datetime2', label: 'Datetime', alignRight: false },
+  { id: 'datetime3', label: 'Datetime', alignRight: false },
   { id: 'status', label: 'Status', alignRight: false }
 ];
 
@@ -133,6 +137,9 @@ export default function Booking() {
 
   const isUserNotFound = filteredUsers.length === 0;
 
+  const [openAdd, setOpenAdd] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+
   return (
     <Page title="Booking | Minimal-UI">
       <Container>
@@ -145,17 +152,14 @@ export default function Booking() {
             component={RouterLink}
             to="#"
             startIcon={<Icon icon={plusFill} />}
+            onClick={() => setOpenAdd(true)}
           >
             New Booking
           </Button>
         </Stack>
 
         <Card>
-          <BookingListToolbar
-            numSelected={selected.length}
-            filterName={filterName}
-            onFilterName={handleFilterByName}
-          />
+          {/* <BookingListToolbar filterName={filterName} onFilterName={handleFilterByName} /> */}
 
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
@@ -165,42 +169,20 @@ export default function Booking() {
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
                   rowCount={USERLIST.length}
-                  numSelected={selected.length}
                   onRequestSort={handleRequestSort}
-                  onSelectAllClick={handleSelectAllClick}
                 />
                 <TableBody>
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
                       const { id, type, status, location, datetime } = row;
-                      const isItemSelected = selected.indexOf(id) !== -1;
 
                       return (
-                        <TableRow
-                          hover
-                          key={id}
-                          tabIndex={-1}
-                          role="checkbox"
-                          selected={isItemSelected}
-                          aria-checked={isItemSelected}
-                        >
-                          <TableCell padding="checkbox">
-                            <Checkbox
-                              checked={isItemSelected}
-                              onChange={(event) => handleClick(event, id)}
-                            />
-                          </TableCell>
-                          {/* <TableCell component="th" scope="row" padding="none">
-                            <Stack direction="row" alignItems="center" spacing={2}>
-                              <Avatar alt={name} src={avatarUrl} />
-                              <Typography variant="subtitle2" noWrap>
-                                {name}
-                              </Typography>
-                            </Stack>
-                          </TableCell> */}
+                        <TableRow hover key={id} tabIndex={0}>
                           <TableCell align="left">{type}</TableCell>
                           <TableCell align="left">{location}</TableCell>
+                          <TableCell align="left">{datetime}</TableCell>
+                          <TableCell align="left">{datetime}</TableCell>
                           <TableCell align="left">{datetime}</TableCell>
                           <TableCell align="left">
                             <Label
@@ -212,7 +194,7 @@ export default function Booking() {
                           </TableCell>
 
                           <TableCell align="right">
-                            <BookingMoreMenu />
+                            <BookingMoreMenu isEdit={openEdit} setIsEdit={setOpenEdit} />
                           </TableCell>
                         </TableRow>
                       );
@@ -247,6 +229,8 @@ export default function Booking() {
           />
         </Card>
       </Container>
+      <AddNewBooking open={openAdd} setOpen={setOpenAdd} />
+      <EditBooking open={openEdit} setOpen={setOpenEdit} />
     </Page>
   );
 }

@@ -9,7 +9,7 @@ import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/mat
 
 // ----------------------------------------------------------------------
 
-export default function BookingMoreMenu() {
+export default function BookingMoreMenu({ isEdit, setIsEdit }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
@@ -18,7 +18,6 @@ export default function BookingMoreMenu() {
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
         <Icon icon={moreVerticalFill} width={20} height={20} />
       </IconButton>
-
       <Menu
         open={isOpen}
         anchorEl={ref.current}
@@ -40,7 +39,11 @@ export default function BookingMoreMenu() {
           <ListItemIcon>
             <Icon icon={editFill} width={24} height={24} />
           </ListItemIcon>
-          <ListItemText primary="Edit" primaryTypographyProps={{ variant: 'body2' }} />
+          <ListItemText
+            primary="Edit"
+            primaryTypographyProps={{ variant: 'body2' }}
+            onClick={setIsEdit(true)}
+          />
         </MenuItem>
       </Menu>
     </>
