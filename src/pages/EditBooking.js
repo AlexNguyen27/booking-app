@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
@@ -10,21 +10,30 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import DialogTitle from '@mui/material/DialogTitle';
 
-const BOOKING_STATUS = ['Pending Review', 'Approved', 'Reject'];
+const BOOKING_STATUS = {
+  pendingReview: 'Pending Review',
+  approved: 'Approved',
+  rejected: 'Rejected'
+};
 
 const mockup = {
-  status: 'Pending Review'
+  status: 'pendingReview'
 };
 export default function EditBooking({ data = mockup, open, setOpen }) {
+  const [eventType, setEventType] = useState(data.status);
   const handleClose = () => {
     setOpen(false);
   };
 
+  console.log('data', data);
+
   const handleOnSave = () => {
     setOpen(false);
   };
-  const [eventType, setEventType] = useState(data.status);
 
+  useEffect(() => {
+    setEventType(data.status);
+  }, [data.status]);
   const handleChange = (event) => {
     setEventType(event.target.value);
   };
@@ -43,10 +52,19 @@ export default function EditBooking({ data = mockup, open, setOpen }) {
               onChange={handleChange}
               // variant="standard"
             >
-              {BOOKING_STATUS.map((value) => (
-                <MenuItem value={value}>{value}</MenuItem>
+              {Object.keys(BOOKING_STATUS).map((key) => (
+                <MenuItem value={key}>{BOOKING_STATUS[key]}</MenuItem>
               ))}
             </Select>
+            <TextField
+              margin="dense"
+              id="reason"
+              label="Reason"
+              multiline
+              fullWidth
+              rows={4}
+              style={{ marginBottom: '20px' }}
+            />
           </FormControl>
         </DialogContent>
         <DialogActions>

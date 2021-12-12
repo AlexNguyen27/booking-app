@@ -9,10 +9,14 @@ import { Menu, MenuItem, IconButton, ListItemIcon, ListItemText } from '@mui/mat
 
 // ----------------------------------------------------------------------
 
-export default function BookingMoreMenu({ isEdit, setIsEdit }) {
+export default function BookingMoreMenu({ setIsEdit, row, setSelectedItem }) {
   const ref = useRef(null);
   const [isOpen, setIsOpen] = useState(false);
 
+  const handleEdit = () => {
+    setIsEdit(true);
+    setSelectedItem(row);
+  };
   return (
     <>
       <IconButton ref={ref} onClick={() => setIsOpen(true)}>
@@ -28,12 +32,12 @@ export default function BookingMoreMenu({ isEdit, setIsEdit }) {
         anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
         transformOrigin={{ vertical: 'top', horizontal: 'right' }}
       >
-        <MenuItem sx={{ color: 'text.secondary' }}>
+        {/* <MenuItem sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
             <Icon icon={trash2Outline} width={24} height={24} />
           </ListItemIcon>
           <ListItemText primary="Delete" primaryTypographyProps={{ variant: 'body2' }} />
-        </MenuItem>
+        </MenuItem> */}
 
         <MenuItem component={RouterLink} to="#" sx={{ color: 'text.secondary' }}>
           <ListItemIcon>
@@ -42,7 +46,7 @@ export default function BookingMoreMenu({ isEdit, setIsEdit }) {
           <ListItemText
             primary="Edit"
             primaryTypographyProps={{ variant: 'body2' }}
-            onClick={setIsEdit(true)}
+            onClick={() => handleEdit()}
           />
         </MenuItem>
       </Menu>

@@ -127,10 +127,6 @@ export default function Booking() {
     setPage(0);
   };
 
-  const handleFilterByName = (event) => {
-    setFilterName(event.target.value);
-  };
-
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - USERLIST.length) : 0;
 
   const filteredUsers = applySortFilter(USERLIST, getComparator(order, orderBy), filterName);
@@ -139,6 +135,7 @@ export default function Booking() {
 
   const [openAdd, setOpenAdd] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
+  const [selectedItem, setSelectedItem] = useState({});
 
   return (
     <Page title="Booking | Minimal-UI">
@@ -194,7 +191,12 @@ export default function Booking() {
                           </TableCell>
 
                           <TableCell align="right">
-                            <BookingMoreMenu isEdit={openEdit} setIsEdit={setOpenEdit} />
+                            <BookingMoreMenu
+                              isEdit={openEdit}
+                              setIsEdit={setOpenEdit}
+                              row={row}
+                              setSelectedItem={setSelectedItem}
+                            />
                           </TableCell>
                         </TableRow>
                       );
@@ -230,7 +232,7 @@ export default function Booking() {
         </Card>
       </Container>
       <AddNewBooking open={openAdd} setOpen={setOpenAdd} />
-      <EditBooking open={openEdit} setOpen={setOpenEdit} />
+      <EditBooking open={openEdit} setOpen={setOpenEdit} data={selectedItem} />
     </Page>
   );
 }
