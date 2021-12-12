@@ -5,7 +5,7 @@ import { Box, Checkbox, TableRow, TableCell, TableHead, TableSortLabel } from '@
 
 // ----------------------------------------------------------------------
 
-UserListHead.propTypes = {
+BookingListHead.propTypes = {
   order: PropTypes.oneOf(['asc', 'desc']),
   orderBy: PropTypes.string,
   rowCount: PropTypes.number,
@@ -15,7 +15,7 @@ UserListHead.propTypes = {
   onSelectAllClick: PropTypes.func
 };
 
-export default function UserListHead({
+export default function BookingListHead({
   order,
   orderBy,
   rowCount,

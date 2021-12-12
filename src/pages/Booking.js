@@ -25,19 +25,21 @@ import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../components/_dashboard/user';
+import {
+  BookingListHead,
+  BookingListToolbar,
+  BookingMoreMenu
+} from '../components/_dashboard/booking';
 //
 import USERLIST from '../_mocks_/user';
 
 // ----------------------------------------------------------------------
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', alignRight: false },
-  { id: 'company', label: 'Company', alignRight: false },
-  { id: 'role', label: 'Role', alignRight: false },
-  { id: 'isVerified', label: 'Verified', alignRight: false },
-  { id: 'status', label: 'Status', alignRight: false },
-  { id: '' }
+  { id: 'type', label: 'Event Type', alignRight: false },
+  { id: 'location', label: 'Location', alignRight: false },
+  { id: 'datetime', label: 'Datetime', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false }
 ];
 
 // ----------------------------------------------------------------------
@@ -71,7 +73,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function User() {
+export default function Booking() {
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -132,11 +134,11 @@ export default function User() {
   const isUserNotFound = filteredUsers.length === 0;
 
   return (
-    <Page title="User | Minimal-UI">
+    <Page title="Booking | Minimal-UI">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            User
+            Booking
           </Typography>
           <Button
             variant="contained"
@@ -144,12 +146,12 @@ export default function User() {
             to="#"
             startIcon={<Icon icon={plusFill} />}
           >
-            New User
+            New Booking
           </Button>
         </Stack>
 
         <Card>
-          <UserListToolbar
+          <BookingListToolbar
             numSelected={selected.length}
             filterName={filterName}
             onFilterName={handleFilterByName}
@@ -158,7 +160,7 @@ export default function User() {
           <Scrollbar>
             <TableContainer sx={{ minWidth: 800 }}>
               <Table>
-                <UserListHead
+                <BookingListHead
                   order={order}
                   orderBy={orderBy}
                   headLabel={TABLE_HEAD}
@@ -171,8 +173,8 @@ export default function User() {
                   {filteredUsers
                     .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     .map((row) => {
-                      const { id, name, role, status, company, avatarUrl, isVerified } = row;
-                      const isItemSelected = selected.indexOf(name) !== -1;
+                      const { id, type, status, location, datetime } = row;
+                      const isItemSelected = selected.indexOf(id) !== -1;
 
                       return (
                         <TableRow
@@ -186,31 +188,31 @@ export default function User() {
                           <TableCell padding="checkbox">
                             <Checkbox
                               checked={isItemSelected}
-                              onChange={(event) => handleClick(event, name)}
+                              onChange={(event) => handleClick(event, id)}
                             />
                           </TableCell>
-                          <TableCell component="th" scope="row" padding="none">
+                          {/* <TableCell component="th" scope="row" padding="none">
                             <Stack direction="row" alignItems="center" spacing={2}>
                               <Avatar alt={name} src={avatarUrl} />
                               <Typography variant="subtitle2" noWrap>
                                 {name}
                               </Typography>
                             </Stack>
-                          </TableCell>
-                          <TableCell align="left">{company}</TableCell>
-                          <TableCell align="left">{role}</TableCell>
-                          <TableCell align="left">{isVerified ? 'Yes' : 'No'}</TableCell>
+                          </TableCell> */}
+                          <TableCell align="left">{type}</TableCell>
+                          <TableCell align="left">{location}</TableCell>
+                          <TableCell align="left">{datetime}</TableCell>
                           <TableCell align="left">
                             <Label
                               variant="ghost"
-                              color={(status === 'banned' && 'error') || 'success'}
+                              color={(status === 'rejected' && 'error') || 'success'}
                             >
                               {sentenceCase(status)}
                             </Label>
                           </TableCell>
 
                           <TableCell align="right">
-                            <UserMoreMenu />
+                            <BookingMoreMenu />
                           </TableCell>
                         </TableRow>
                       );

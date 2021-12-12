@@ -39,13 +39,13 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 
 // ----------------------------------------------------------------------
 
-UserListToolbar.propTypes = {
+BookingListToolbar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
   onFilterName: PropTypes.func
 };
 
-export default function UserListToolbar({ numSelected, filterName, onFilterName }) {
+export default function BookingListToolbar({ numSelected, filterName, onFilterName }) {
   return (
     <RootStyle
       sx={{
@@ -63,7 +63,7 @@ export default function UserListToolbar({ numSelected, filterName, onFilterName 
         <SearchStyle
           value={filterName}
           onChange={onFilterName}
-          placeholder="Search user..."
+          placeholder="Search booking..."
           startAdornment={
             <InputAdornment position="start">
               <Box component={Icon} icon={searchFill} sx={{ color: 'text.disabled' }} />
